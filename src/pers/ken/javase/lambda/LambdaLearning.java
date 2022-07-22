@@ -1,9 +1,6 @@
 package pers.ken.javase.lambda;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -13,15 +10,15 @@ import java.util.stream.Stream;
 /**Lambda Learning
  *
  * 简化
- * lambda体只有一句语句时，可以省略{；}
- * lambda体只有一句为return的语句时，可以和 {；}一起省略return
- * 形参列表的类型可以省略
- * 当形参列表的形参只有一个的时候，可以把（）和类型一起省略(空参除外)
- * lambda体只有一句，并且是通过调用一个对象/类现有的方法完成的，且lambda的形参正好是该方法的实参
+ * 1、lambda体只有一句语句时，可以省略{；}
+ * 2、lambda体只有一句为return的语句时，可以和 {；}一起省略return
+ * 3、形参列表的类型可以省略
+ * 4、当形参列表的形参只有一个的时候，可以把（）和类型一起省略(空参除外)
+ * 5、lambda体只有一句，并且是通过调用一个对象/类现有的方法完成的，且lambda的形参正好是该方法的实参
  * 实例化对象名：：实例方法、类名：：静态方法、类名：：实例方法
  *
- * lambda表达式是创建一个对象，且lambda的形参正好是该构造器的实参
- * lambda表达式是创建一个数组，且lambda的形参正好是该数组的长度
+ * 6、lambda表达式是创建一个对象，且lambda的形参正好是该构造器的实参
+ * 7、lambda表达式是创建一个数组，且lambda的形参正好是该数组的长度
  * 类名：：new、数组类名：：new
  */
 
@@ -30,20 +27,20 @@ public class LambdaLearning {
         //test1、2测试lambda代替匿名内部类
         new FunctionOfLambda().test1();
         new FunctionOfLambda().test2();
-        //test3测试了lambda使用完整的三个步骤
+        //测试了lambda使用完整的三个步骤
         new FunctionOfLambda().test3();
         //test4说明lambda是实现类
         new FunctionOfLambda().test4();
-        //test5形成Comparator的实现类
-        new InterfaceOfLambda().test5();
-        //test6测试consume接口
-        new InterfaceOfLambda().test6();
-        //test7测试supplier接口
-        new InterfaceOfLambda().test7();
-        //test8测试predicate接口
-        new InterfaceOfLambda().test8();
-        //test9测试function接口
-        new InterfaceOfLambda().test9();
+        //形成Comparator的实现类
+        new FunctionOfLambda().test5();
+        //lambda的简化
+        new FunctionOfLambda().test6();
+        //测试lambda四类接口
+        new InterfaceOfLambda().consume();
+        new InterfaceOfLambda().supplier();
+        new InterfaceOfLambda().predicate();
+        new InterfaceOfLambda().function();
+        //练习
         //无参无返回值
         new PractiseOfLambda().practise1();
         //有参无返回值
@@ -63,7 +60,7 @@ public class LambdaLearning {
 class FunctionOfLambda {
 
     //匿名内部类的方式
-    public void test1() {
+    void test1() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -75,7 +72,7 @@ class FunctionOfLambda {
 
 
     //lambda的方式
-    public void test2() {
+    void test2() {
         //FunctionalInterface,Single Abstract Method
         //可以用的接口：Runnable、Comparator、FileFilter
         new Thread(() -> System.out.println("执行多线程任务2")).start();
@@ -85,7 +82,7 @@ class FunctionOfLambda {
     //第二：有一个使用实现类的方法
     //第三：在测试类使用lambda形成Calculator的实现类，并且重写了cal方法，给予一个返回值
     //invokeCal方法接收了返回值，并进行打印
-    public void test3() {
+    void test3() {
         invokeCal(1, 2, (int a, int b) -> {
             return a + b;
         });
@@ -110,25 +107,39 @@ class FunctionOfLambda {
     }
 
     //下面的式子就是lambda的等式
-    public void test4() {
+    void test4() {
         Runnable r = () -> System.out.println("hello,lambda");
+    }
+
+    void test5() {
+        String[] ch = {"h", "e", "l", "l", "o"};
+        //public static <T> void sort(T[] a, Comparator<? super T> c)
+        //lambda形成Comparator的实现类
+        Arrays.sort(ch, (o1, o2) -> o1.compareToIgnoreCase(o2));
+    }
+    void test6(){
+        String[] ch = {"h", "e", "l", "l", "o"};
+        //原版
+//        Arrays.sort(ch, (o1, o2) -> o1.compareToIgnoreCase(o2));
+        Arrays.sort(ch, String::compareToIgnoreCase);
+
+        Optional<String> o = Optional.of("hello");
+        //原版
+//        System.out.println(o.map(s -> s.length()));
+        System.out.println(o.map(String::length));
     }
 }
 
 class InterfaceOfLambda {
 
-    public void test5() {
-        String[] ch = {"h", "e", "l", "l", "o"};
-        //lambda形成Comparator的实现类
-        Arrays.sort(ch, (o1, o2) -> o1.compareToIgnoreCase(o2));
-    }
+
 
 
     //消费型接口
     //首先要有接口（jdk提供了很多），
     //其次要有使用实现类并【传递形参】的方法（自定义或者jdk提供），
     //最后可以使用lambda作为该方法的实参
-    public void test6() {
+    public void consume() {
         new InterfaceOfLambda().transit1("learing", (String s) -> {
             System.out.println(s);
         });
@@ -144,7 +155,7 @@ class InterfaceOfLambda {
     //首先要有接口（jdk提供了很多），
     //其次要有使用实现类并【操作实现类返回值】的方法（自定义或者jdk提供），
     //最后可以使用lambda作为该方法的实参
-    public void test7() {
+    public void supplier() {
         new InterfaceOfLambda().transit2(() -> {
             return 5;
         });
@@ -161,7 +172,7 @@ class InterfaceOfLambda {
     //首先要有接口（jdk提供了很多），
     //其次要有使用实现类并【传递形参】以及【操作实现类返回值】的方法（自定义或者jdk提供），
     //最后可以使用lambda作为该方法的实参
-    public void test8() {
+    public void predicate() {
         //从这里看这个操作感觉很蠢的样子
         new InterfaceOfLambda().transit3(5, (Integer i) -> {
             return i > 6;
@@ -180,7 +191,7 @@ class InterfaceOfLambda {
     //首先要有接口（jdk提供了很多），
     //其次要有使用实现类并【传递形参】以及【操作实现类返回值】的方法（自定义或者jdk提供），
     //最后可以使用lambda作为该方法的实参
-    public void test9() {
+    public void function() {
         //原版
 //        new LambdaLearning().test13(5,(Integer i)->{
 //            return i*6;
