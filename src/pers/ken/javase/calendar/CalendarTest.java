@@ -13,76 +13,144 @@ import java.util.Date;
 
 public class CalendarTest {
     public static void main(String[] args) throws ParseException {
-        CalendarTest.get();
-        CalendarTest.set();
-        CalendarTest.add();
-        CalendarTest.format();
-        CalendarTest.parse();
-        CalendarTest.localDate();
-        CalendarTest.period();
-        CalendarTest.duration();
-        CalendarTest.dateTimeFormatter();
+        new CalendarMethod().get();
+        new CalendarMethod().set();
+        new CalendarMethod().add();
+        new SimpleDateFormatMethod().format();
+        new SimpleDateFormatMethod().parse();
+        new LocalDateMethod().localDate();
+        new PeriodMethod().period();
+        new DurationMethod().duration();
+        new DateTimeFormatterAndTemporalAccessor().dateTimeFormatter();
+        new SystemTime().systemTime();
     }
-    static void get(){
+}
+
+class CalendarMethod {
+    //public static Calendar getInstance()
     Calendar calendar = Calendar.getInstance();
-    int year = calendar.get(Calendar.YEAR);
+
+    void get() {
+
+        //public int get(int field)
+        //作用：返回日历的默认字段值
+        int year = calendar.get(Calendar.YEAR);
         System.out.println(year);
     }
-    static void set(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,2023);
+
+    void set() {
+        //public void set(int field, int value)
+        //作用：将日历的指定字段设值
+        calendar.set(Calendar.YEAR, 2023);
         System.out.println(calendar.get(Calendar.YEAR));
     }
-    static void add(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR,2);
+
+    void add() {
+        //abstract public void add(int field, int amount);
+        //作用：为日历的指定字段增加指定数值
+        calendar.add(Calendar.YEAR, 2);
         System.out.println(calendar.get(Calendar.YEAR));
     }
-    static void format(){
+
+}
+
+class SimpleDateFormatMethod {
+    void format() {
+        //public SimpleDateFormat(String pattern)
+        //作用：用给定的模式创建一个默认的SimpleDateFormat
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        //public final String format(Date date)
+        //作用：将日期转化为字符串
         String str = sdf.format(new Date());
         System.out.println(str);
     }
-    static void parse() throws ParseException {
-        //字符串转日期对象
+
+    void parse() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         String s = "2022.09.09";
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日");
-        String str = sdf2.format(sdf.parse(s));
-        System.out.println(str);
+        //public Date parse(String source) throws ParseException
+        //作用：将字符串转化为日期格式
+        System.out.println(sdf.parse(s));
     }
-    static void localDate(){
+
+}
+
+class LocalDateMethod {
+    void localDate() {
+        //public static LocalDate now()
+        //作用：返回当前日期
         LocalDate localDate = LocalDate.now();
         System.out.println("localDate = " + localDate);
     }
-    static void period(){
+
+}
+
+class PeriodMethod {
+    void period() {
         LocalDate now = LocalDate.now();
         LocalDate of = LocalDate.of(3024, 5, 2);
+        //public static Period between(LocalDate startDateInclusive, LocalDate endDateExclusive)
+        //作用：以Period形式返回两个日期之间的差值
         Period period = Period.between(now, of);
-        System.out.print("相差"+period.getYears()+"年");
-        System.out.print(period.getMonths()+"月");
-        System.out.println(period.getDays()+"日");
+        //public int getYears()
+        //作用：得到Period中的年
+        System.out.print("相差" + period.getYears() + "年");
+        //public int getMonths()
+        //作用：得到Period中的月
+        System.out.print(period.getMonths() + "月");
+        //public int getDays()
+        //作用：得到Period中的日
+        System.out.println(period.getDays() + "日");
     }
-    static void duration(){
+
+}
+
+class DurationMethod {
+    void duration() {
+        //public static LocalDateTime now()
+        //作用：以LocalDateTime的形式返回当前日期和时间
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime of = LocalDateTime.of(3024, 5, 2,15,15,20);
+        LocalDateTime of = LocalDateTime.of(3024, 5, 2, 15, 15, 20);
+        //public static Duration between(Temporal startInclusive, Temporal endExclusive)
+        //作用：以Duration形式返回两个日期之间的差值
         Duration duration = Duration.between(now, of);
-        System.out.print("相差"+duration.toDays()+"天");
-        System.out.print(duration.toHours()+"时");
-        System.out.print(duration.toMinutes()+"分");
-        System.out.println(duration.toMillis()+"秒");
+        //public long toDays()
+        //作用：得到Duration中的天
+        System.out.print("相差" + duration.toDays() + "天");
+        //public long toHours()
+        //作用：得到Duration中的时
+        System.out.print(duration.toHours() + "时");
+        //public long toMinutes()
+        //作用：得到Duration中的分
+        System.out.print(duration.toMinutes() + "分");
+        //public long toMillis()
+        //作用：得到Duration中的秒
+        System.out.println(duration.toMillis() + "秒");
     }
-    static void dateTimeFormatter(){
-        //静态方法，传递时间格式，返回本类对象  方法的最佳解释体
+
+}
+
+class DateTimeFormatterAndTemporalAccessor {
+    void dateTimeFormatter() {
+        //public static DateTimeFormatter ofPattern(String pattern)
+        //作用：创建格式化DateTimeFormatter模板
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH.mm.ss");
-        //对象调用，传递时间数值，返回字符串
+        //public String format(TemporalAccessor temporal)
+        //作用：使用调用对象格式化日期对象
         String format = dateTimeFormatter.format(LocalDateTime.now());
         System.out.println(format);
-        //对象调用，传递字符串，返回值为接口
+        //public TemporalAccessor parse(CharSequence text)
+        //作用：完全解析传入的时间文本
         TemporalAccessor parse = dateTimeFormatter.parse(format);
-        //静态方法，传递时间数值，返回LocalDateTime类型，年月日，时分秒
+        //public static LocalDateTime from(TemporalAccessor temporal)
+        //作用：将时间对象转换为LocalDateTime类型
         LocalDateTime from = LocalDateTime.from(parse);
         System.out.println("from = " + from);
     }
 }
-
+class SystemTime{
+    void systemTime(){
+        long l = System.currentTimeMillis();
+        System.out.println("l = " + l);
+    }
+}

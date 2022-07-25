@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
  * 目的四：测试基本数据流
  * 目的五：异常的处理
  * 目的六：对象序列化
+ * 需要手动释放资源
  */
 public class IOStream {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
