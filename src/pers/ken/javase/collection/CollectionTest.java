@@ -11,10 +11,10 @@ public class CollectionTest {
         new Modify().inquire();
         new Modify().stream();
         new Traverse().traverse();
-        new MethodOfArrayList().delete();
-        new MethodOfArrayList().inquire();
-        new MethodOfArrayList().copy();
-        new MethodOfArrayList().traverse();
+        new ArrayListMethod().delete();
+        new ArrayListMethod().inquire();
+        new ArrayListMethod().copy();
+        new ArrayListMethod().traverse();
     }
 }
 
@@ -30,6 +30,7 @@ class CreateCollection {
         HashSet<Object> hs = new HashSet<>();
         TreeSet<Object> ts = new TreeSet<>();
         LinkedHashSet<Object> lhs = new LinkedHashSet<>();
+        PriorityQueue priorityQueue = new PriorityQueue<>();
     }
 }
 
@@ -146,8 +147,14 @@ class Traverse {
     }
 }
 
-class MethodOfArrayList {
+class ArrayListMethod {
     ArrayList<String> a = new ArrayList<>();
+    void add(){
+        a.add("a");
+        a.add("b");
+        a.add("c");
+        a.add(2,"i");
+    }
     void delete(){
         a.add("a");
         a.add("b");
@@ -160,7 +167,12 @@ class MethodOfArrayList {
         }
         System.out.println("a = " + a);
     }
-
+    void set(){
+        a.add("a");
+        a.add("b");
+        a.add("c");
+        a.set(2,"n");
+    }
     void inquire() {
         a.add("a");
         a.add("b");
@@ -188,14 +200,40 @@ class MethodOfArrayList {
     }
 
     void traverse() {
-        a.add("a");
-        a.add("b");
-        a.add("c");
-        a.add("d");
-        a.forEach(System.out::println);
+        //与collection相同
     }
 }
 
+class VectorMethod{
+    void vectorMethod(){
+
+    }
+}
+class LinkedListMethod{
+    void linkedListMethod(){
+
+    }
+}
+class HashSetMethod{
+    void hashSetMethod(){
+
+    }
+}
+class LinkedHashSetMethod{
+    void linkedHashSetMethod(){
+
+    }
+}
+class TreeSetMethod{
+    void treeSetMethod(){
+
+    }
+}
+class PriorityQueueMethod{
+    void priorityQueueMethod(){
+
+    }
+}
 class Quote {
     public String quote = "quote";
 }
