@@ -34,6 +34,7 @@ class ReflectionTest {
         //Class.forName(全限定类名)
         Class clazz3 = Class.forName("pers.ken.javase.reflection.Person");
         //ClassLoader类加载器
+        ClassLoader clazz4 = clazz1.getClassLoader();
     }
 
     void applicationOfReflection() {

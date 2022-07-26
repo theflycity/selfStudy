@@ -150,6 +150,8 @@ class DateTimeFormatterAndTemporalAccessor {
 }
 class SystemTime{
     void systemTime(){
+        //public static native long currentTimeMillis();
+        //作用：返回当前时间的毫秒值
         long l = System.currentTimeMillis();
         System.out.println("l = " + l);
     }

@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 //类也必须是public的
+
+//使用junit需要导入junit的jar包和hamcrest-core的jar包
 public class Junit {
     @Before
     public void test1(){

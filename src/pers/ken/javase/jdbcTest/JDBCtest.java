@@ -1,14 +1,17 @@
 package pers.ken.javase.jdbcTest;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
+import pers.ken.javase.utils.JDBCUtils;
 
 import javax.sql.DataSource;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -21,11 +24,16 @@ public class JDBCtest {
         new ExecuteSQL().executeSQL();
         new ExecuteSQL().preparedStatement();
         new ExecuteSQL().getAutoIncrementKey();
-//        new ExecuteSQL().bachProcessing();
+        new ExecuteSQL().bachProcessing();
         new Transaction().transaction();
+        new ConnectionPool().connectionPool();
+        new JDBCUtilTest().jdbcUtilTest();
+        new DBUtils().addDeleteModify();
+        new DBUtils().inquire();
     }
 }
 
+//使用Connection需要先导入mysql—connection的jar包
 class ExecuteSQL {
     void executeSQL() throws Exception {
         //执行SQL全过程
@@ -53,16 +61,20 @@ class ExecuteSQL {
         int i = statement.executeUpdate(s);
         System.out.println("i = " + i);
 
-        String s1 = "select * from 7_user";
+        String s1 = "select * from 7_user where uname = 'ken'";
         //ResultSet executeQuery(String sql) throws SQLException
         //作用：执行查询的sql语句，将结果返回ResultSet
         ResultSet r = statement.executeQuery(s1);
+        ArrayList<User> users = new ArrayList<>();
         while (r.next()) {
-            System.out.print("id:" + r.getObject(1) + "\t");
-            System.out.print("name:" + r.getObject(2) + "\t");
-            System.out.print("age:" + r.getObject(3) + "\t");
-            System.out.println("sex:" + r.getObject(4));
+            int id = (int) r.getObject(1);
+            String name = (String) r.getObject(2);
+            int age = (int) r.getObject(3);
+            int sex = (int) r.getObject(4);
+            User user = new User(id, name, age, sex);
+            users.add(user);
         }
+        System.out.println("users = " + users);
 
         //释放资源
         //后生成的先释放
@@ -219,14 +231,17 @@ class Transaction {
     }
 }
 
+//使用连接池需要先配置文件resources、导入druid的jar包
 class ConnectionPool{
     void connectionPool() throws Exception {
         //public Properties()
         Properties properties = new Properties();
-        //
+        //将druid.properties转化为字节流
 //        FileInputStream fis = new FileInputStream
 //                ("C:\\Users\\001\\WorkCould\\OneDrive - aufe.edu.cn\\JAVA\\study\\selfStudy\\resources\\druid.properties");
-        //public ClassLoader getClassLoader()
+        //public ClassLoader getClassLoader():获取类加载器
+        //public InputStream getResourceAsStream(String name)
+        //作用：返回指定资源输入流
         InputStream fis = JDBCtest.class.getClassLoader().getResourceAsStream("druid.properties");
         //public synchronized void load(InputStream inStream) throws IOException
         //从字节流中读取属性列表
@@ -237,5 +252,85 @@ class ConnectionPool{
         //Connection getConnection() throws SQLException
         //作用：获取连接
         Connection connection = dataSource.getConnection();
+        String s = "delete from 7_user where uname = ? or uname = ? ";
+        PreparedStatement p = connection.prepareStatement(s);
+        p.setObject(1,"'mary'");
+        p.setObject(2,"'ken'");
+        p.executeUpdate();
+        p.close();
+        connection.close();
     }
 }
+
+class JDBCUtilTest{
+    void jdbcUtilTest() throws SQLException {
+        //注册驱动
+        //获取连接
+        Connection connection = JDBCUtils.getConnection();
+        //预编译sql语句
+        String s = "delete from 7_user where uname = ? ";
+        PreparedStatement preparedStatement = connection.prepareStatement(s);
+        //设置参数
+        preparedStatement.setObject(1,"ava");
+        //执行sql语句
+        preparedStatement.executeUpdate();
+        //关闭资源
+        preparedStatement.close();
+        JDBCUtils.releaseConnection(connection);
+    }
+}
+
+class DBUtils{
+    //public QueryRunner()
+    //作用：创建QueryRunner对象
+    QueryRunner qr = new QueryRunner();
+    void addDeleteModify() throws SQLException {
+        //第一种方式:将connection传入update方法
+        String s = "insert into 7_user values(null,?,?,?)";
+        //public int update(Connection conn, String sql, Object... params) throws SQLException
+        //作用：执行SQL的增删改语句
+        qr.update(JDBCUtils.getConnection(),s,"ava",15,3);
+
+        //第二种方式：DataSource传入QueryRunner
+        QueryRunner qr2 = new QueryRunner(JDBCUtils.getDataSource());
+        String s2 = "insert into 7_user values(null,?,?,?)";
+        //可变参数也可以作为数组传入
+//        Object[] o = {"ava",16,3};
+//        qr2.update(s2,o);
+        //public int update(String sql, Object... params) throws SQLException
+        qr2.update(s2,"ava",16,3);
+
+        //批量增删改操作
+        String s3 = "insert into 7_user values(null,?,?,?)";
+        Object[][] o = new Object[20][3];
+        for (int i = 0; i < 20; i++) {
+            o[i][0] = "ava";
+            o[i][1] = 16;
+            o[i][2] = 1;
+        }
+        //public int[] batch(String sql, Object[][] params) throws SQLException
+        //执行增删改批量操作
+        qr.batch(JDBCUtils.getConnection(),s3,o);
+        System.out.println("-----------------");
+    }
+    void inquire() throws SQLException {
+        String s = "select * from 7_user where id = ?";
+
+        //User的修饰符要求有public,同时字段名也要求一致
+        //public <T> T query(Connection conn, String sql, ResultSetHandler<T> rsh, Object... params) throws SQLException
+        //作用：使用替换参数执行 SQL SELECT 查询
+        User u = qr.query(JDBCUtils.getConnection(),s, new BeanHandler<>(User.class), 1);
+        System.out.println("u = " + u);
+
+        //批量查询操作
+        String s1 = "select * from 7_user where id < ?";
+        List<User> u1 = qr.query(JDBCUtils.getConnection(),s1, new BeanListHandler<>(User.class), 10);
+        System.out.println("u1 = " + u1);
+
+        //统计操作
+        String s2 = "select count(*) from 7_user";
+        Object u2 = qr.query(JDBCUtils.getConnection(), s2, new ScalarHandler<>());
+        System.out.println("u2 = " + u2);
+    }
+}
+
