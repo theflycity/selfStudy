@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML入门</title>
+    <style type="text/css">
+        table, th, td {
+            border-collapse: collapse;
+            border: 1px solid black;
+            padding: 5px;
+        }</style>
+    <style type="text/css">
+        .one {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+            background-color: lightgreen;
+            margin-top: 5px;
+        }</style>
+    <link rel="stylesheet" type="text/css" href="css/example.css">
+</head>
+<body>
+
+<!--标题标签:h
+标签不区分大小写，但是一般使用小写-->
+<h1>一级标题</h1>
+<H1>one</H1>
+<h6>六级标题</h6>
+
+<!--段落标签:p-->
+<p>The executions were carried out despite worldwide pleas for clemency for the four men, including from UN experts and
+    Cambodia, which holds the rotating chairmanship of the Association of Southeast Asian Nations (ASEAN).</p>
+
+<p>Andrews condemned the decision to go ahead with the executions when they were announced in June. In a statement he
+    said the men were “tried, convicted and sentenced…without the right of appeal and reportedly without legal counsel,
+    in violation of international human rights law.”</p>
+<p> called for “strong action” from UN Member States against the “widespread and systematic murders of protesters,
+    indiscriminate attacks against entire villages and now the execution of opposition leaders.”<br>
+
+    <!--换行标签:br-->
+    “The status quo of international inaction must be firmly rejected,” he added.<br>
+
+    In June, UN Secretary-General António Guterres also called for charges to be dropped "against those arrested on
+    charges related to the exercise of their fundamental freedoms and rights,and for the immediate release of all
+    political prisoners in Myanmar".<br>
+
+    UN Special Rapporteurs such are tasked with specific thematic or country mandates by the Geneva-based Human Rights
+    Council, where they report back on their fact-finding or monitoring missions, usually at one of the forum’s three
+    regular sessions a year. The expert positions within the Council’s Special Procedures section are honorary and
+    incumbents are not paid for their work.</p>
+
+<!--无序列表标签:ul/li-->
+<ul>
+    <li>Apple</li>
+    <li>Banana</li>
+    <li>Grape</li>
+</ul>
+
+<!--超链接标签：a
+    href:要跳转到资源的路径
+        本项目的资源：相对路径（绝对路径）
+        其他服务器的资源：完整的url
+    target:新页面的打开方式
+        _self:新页面在当前页面打开
+        _blank:新页面打开一个新的标签页-->
+<a href="https://www.baidu.com" target="_blank">跳转到百度</a>
+<br><br><br><br>
+
+<!--图片标签
+    src:用于指定要显示图片的路径（项目的图片一般放在一个img文件夹中）
+    width:图片的宽度
+    height:图片的高度-->
+<img src="img/001.jpg" alt="少司命">
+<br><br><br><br>
+
+<!--块标签
+    div:前后有换行的块
+    span:前后没有换行的块-->
+<div style="border: 1px solid black;width:100px;height:100px">This is a div block</div>
+<div style="border: 1px solid black;width:100px;height:100px">This is a div block</div>
+<span style="border: 1px solid black;width:100px;height:100px">This is a span block</span>
+<span style="border: 1px solid black;width:100px;height:100px">This is a span block</span>
+<br><br><br><br>
+
+<!--html实体
+    部分被赋予特定含义的符号的转义-->
+
+<!--路径
+    物理路径:以磁盘开头
+    相对路径：以当前位置为基准
+    绝对路径：以/正斜线开头，根目录作为起始点-->
+
+<!--表格标签：table
+    tr:行
+    th:表头
+    td:单元格
+    colspan:横向合并单元格，列合并
+    rowspan:纵向合并单元格，行合并
+    -->
+<table>
+    <tr>
+        <th>姓名</th>
+        <th>属性</th>
+        <th>级别</th>
+        <th>忍村</th>
+    </tr>
+    <tr>
+        <td>漩涡鸣人</td>
+        <td>风</td>
+        <td>下忍</td>
+        <td>木叶</td>
+    </tr>
+    <tr>
+        <td>吕智波佐助</td>
+        <td rowspan="2">雷</td>
+        <td colspan="2">下忍</td>
+    </tr>
+    <tr>
+        <td>我爱罗</td>
+        <td>影</td>
+        <td>砂隐村</td>
+    </tr>
+</table>
+
+
+<!--表单标签
+    action:接受表单数据的服务器地址
+    method:请求方式：一共有八种：get,post,put,delete,head,connect,option,trace，但是此属性只有两种:get,post
+        表单属性:name、value
+    表单项
+        单行文本框<input type="text" name="signal">
+        密码框<input type="password" name="secret">
+        单选框<input type="radio" name="season" value="spring" checked="checked"(默认选项)>春天
+        多选框<input type="checkbox" name="team" value="Brazil">巴西
+        下拉框<select name="interesting">
+            <option value="swimming">游泳</option>
+        按钮：三类：button、reset、submit
+            <button type="button">普通按钮</button>
+            <input type="button"><br>
+        隐藏域<input type="hidden" name="userId" value="2333">
+        多行文本框<textarea name="desc" rows="15" cols="50"></textarea>
+        -->
+<form action="https://www.baidu.com" method="post">
+    个性签名<input type="text" name="signal"><br>
+    密码框<input type="password" name="secret"><br>
+    单选框<input type="radio" name="season" value="spring" checked="checked">春天
+    <input type="radio" name="season" value="spring">夏天
+    <input type="radio" name="season" value="spring">秋天
+    <input type="radio" name="season" value="spring">冬天<br>
+    多选框<input type="checkbox" name="team" value="Brazil">巴西
+    <input type="checkbox" name="team" value="German">德国
+    <input type="checkbox" name="team" value="Italian">意大利<br>
+    下拉框<select name="interesting">
+    <option value="swimming">游泳</option>
+    <option value="running">跑步</option>
+    <option value="shooting">射击</option>
+</select><br>
+    <button type="button">普通按钮</button>
+    <input type="button"><br>
+    <button type="reset">重置按钮</button>
+    <input type="reset"><br>
+    <button type="submit">提交按钮</button>
+    <input type="submit"><br>
+    隐藏域<input type="hidden" name="userId" value="2333"><br>
+    多行文本框<textarea name="desc" rows="15" cols="50"></textarea>
+</form>
+
+<!--css
+    行内样式：写在行内
+    内部样式：写在head中：仅仅对当前页面有效:与class配合使用
+    <style type="text/css">
+        .one {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+            background-color: lightgreen;
+            margin-top: 5px;
+        }
+    </style>
+    外部样式:
+    首先在css文件夹中声明stylesheet类
+    其次在目标html文件中引入外部样式：在head中
+    <link rel="stylesheet" type="text/css" href="css/example.css">
+
+    选择器
+    标签选择器：类名
+    id选择器：#id（唯一）
+    类选择器：.类名
+    -->
+<div style="border: 2px solid black;width:100px;height:100px">hello world</div>
+<div class="one">hello world</div>
+<div class="two">hello world</div>
+</body>
+</html>

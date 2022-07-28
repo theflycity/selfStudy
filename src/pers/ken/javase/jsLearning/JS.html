@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS入门</title>
+    <script src="js/outer.js"></script>
+</head>
+<body>
+<button type="button" id="button">say hello</button>
+<!--内部引用script-->
+<script type="text/javascript">
+    let but = document.getElementById("button");
+    but.onclick = function () {
+        alert("hello")
+    };
+</script>
+
+<!--外部引用script
+    首先：将代码写入外部的js类
+    其次：一个script标签引入外部js文件(建议在head中引入)
+    最后：在另一个script标签中引用方法-->
+<script>showMessage()</script>
+
+<!--声明和使用变量-->
+<!--
+基本数据类型
+数值型：number:不区分整数小数
+字符串：string：不区分字符字符串
+布尔型：boolean
+    true：非零的数值、非空字符串、非空对象
+    false:零、空字符串、null、undefined
+
+引用数据类型：
+    new的对象
+    用[]声明的数组
+    用{}声明的数组
+
+变量
+    关键字：var、let（变量）、const（常量）
+    默认是undefined，
+-->
+
+<!--函数
+内置函数
+//弹出警告框：alert
+//弹出确认框：confirm，让用户确认或取消
+//在控制台打印日志：console.log
+-->
+<script>
+    let b = confirm("确认要删除嘛");
+    alert(b);
+
+    console.log("i am log")
+</script>
+
+
+<!--声明函数
+    特点：1没有返回值
+         2没有参数-->
+<script>
+    //一、普通函数
+function showMessage(message) {
+    console.log(message)
+}
+    //二、匿名函数
+var sum = function (a,b){
+    console.log("求"+a+"和"+b+"的和")
+    return a+b
+}
+</script>
+
+<!--调用函数:函数名调用-->
+<script>
+    showMessage("hello,world")
+    //JS声明和调用时的参数个数可以不一致，没有方法重载的概念，后声明的方法会覆盖先声明的方法
+    var sum1 = sum(1,2,3);
+    console.log(sum1)
+</script>
+
+<!--JS的对象-->
+<script>
+//对象的创建
+    var obj1 = new Object();
+    obj1.name = "ken"
+    obj1.age = 14
+
+    var obj2 = {
+        name : "tom",
+        age:27,
+        showI:function(message){
+            console.log(message)
+        }
+    }
+    //括号外依然可以添加属性
+    obj2.password = "123456"
+console.log(obj2)
+obj2.showI("hello,js")
+
+</script>
+</body>
+</html>
