@@ -7,25 +7,33 @@
 </head>
 <body>
 <button type="button" id="button">say hello</button>
+<button type="button" id="showMessage">show message</button>
+<button type="button" id="delete">内置函数</button>
+
+
 <!--内部引用script-->
 <script type="text/javascript">
     let but = document.getElementById("button");
     but.onclick = function () {
         alert("hello")
-    };
-</script>
+    }</script>
+
 
 <!--外部引用script
     首先：将代码写入外部的js类
     其次：一个script标签引入外部js文件(建议在head中引入)
     最后：在另一个script标签中引用方法-->
-<script>showMessage()</script>
+<script>
+    let show = document.getElementById("showMessage")
+    show.onclick = function () {
+        showMessage()
+    }</script>
 
 <!--声明和使用变量-->
 <!--
 基本数据类型
 数值型：number:不区分整数小数
-字符串：string：不区分字符字符串
+字符串：string：不区分字符字符串，单引号双引号一个意思
 布尔型：boolean
     true：非零的数值、非空字符串、非空对象
     false:零、空字符串、null、undefined
@@ -40,6 +48,7 @@
     默认是undefined，
 -->
 
+
 <!--函数
 内置函数
 //弹出警告框：alert
@@ -47,55 +56,317 @@
 //在控制台打印日志：console.log
 -->
 <script>
-    let b = confirm("确认要删除嘛");
-    alert(b);
-
-    console.log("i am log")
-</script>
-
+    let d = document.getElementById("delete")
+    d.onclick = function () {
+        let b = confirm("确认要删除嘛")
+        alert(b)
+        console.log("i am log")
+    }</script>
 
 <!--声明函数
     特点：1没有返回值
          2没有参数-->
 <script>
     //一、普通函数
-function showMessage(message) {
-    console.log(message)
-}
+    function showMessage2(message) {
+        console.log(message)
+    }
+
     //二、匿名函数
-var sum = function (a,b){
-    console.log("求"+a+"和"+b+"的和")
-    return a+b
-}
+    var sum = function (a, b) {
+        console.log("求" + a + "和" + b + "的和")
+        return a + b
+    }
 </script>
 
 <!--调用函数:函数名调用-->
 <script>
-    showMessage("hello,world")
+    showMessage2("hello,world")
     //JS声明和调用时的参数个数可以不一致，没有方法重载的概念，后声明的方法会覆盖先声明的方法
-    var sum1 = sum(1,2,3);
+    var sum1 = sum(1, 2, 3);
     console.log(sum1)
 </script>
 
+
 <!--JS的对象-->
 <script>
-//对象的创建
+    //对象的创建
+    //对象里面的属性加不加双引号似乎都可以
     var obj1 = new Object();
     obj1.name = "ken"
     obj1.age = 14
 
     var obj2 = {
-        name : "tom",
-        age:27,
-        showI:function(message){
+        name: "tom",
+        age: 27,
+        showInfo: function (message) {
             console.log(message)
         }
     }
     //括号外依然可以添加属性
     obj2.password = "123456"
-console.log(obj2)
-obj2.showI("hello,js")
+    console.log(obj2)
+    obj2.showInfo("hello,js")
+</script>
 
+
+<!--this关键字-->
+<script>
+    //在函数外面使用，this指向window窗口
+    this.showMessage2("hello,this")
+    name = "tom"
+
+    function showName2() {
+        console.log(this.name)
+    }
+
+    //在函数里面使用，this指向调用函数的对象
+    var obj2 = {
+        name: "ken",
+        "showName": function () {
+            console.log(this.name)
+        }
+    }
+    showName2()
+    obj2.showName()
+</script>
+
+
+<!--数组：长度类型都是不固定的-->
+<script>
+    //创建数组
+    //new创建
+    var arr1 = new Array()
+    arr1.push(1)
+    arr1.push("dog")
+    //利用[]创建
+    var arr2 = [2, "cat"]
+    arr2[2] = "tiger"
+
+    //数组的遍历
+    //let可以省略
+    for (let i = 0; i < arr2.length; i++) {
+        console.log(arr2[i])
+    }
+
+    //数组的反序
+    arr1.reverse()
+    console.log(arr1)
+
+    //数组的拼接
+    const s = arr1.join(",");
+    console.log(s)
+
+    //字符串的拆分
+    console.log(s.split(","))
+
+    //弹出数组的最后一个元素
+    console.log(arr1.pop())
+    console.log(arr1)
+</script>
+
+
+<!--JSON-->
+<script>
+    //json的格式: {key:value,key:value}
+    //json数组的格式: [{key:value,key:value},{key:value,key:value}]
+    var person3 = {
+        "name": "张三疯",
+        "age": 189,
+        "address": "武当山",
+        "wife": {
+            "name": "小花",
+            "age": 18,
+            "address": "武当山下的小村庄"
+        },
+        "sons": [
+            {
+                "name": "奥巴马",
+                "age": 1,
+                "address": "武当山"
+            },
+            {
+                "name": "奥拉夫",
+                "age": 2,
+                "address": "少林寺"
+            }
+        ]
+    }
+    //其实JSON对于前端而言，就是一个对象
+    console.log(person3.name)
+    console.log(person3.wife.name)
+
+    //JSON和JS字符串互转
+    //JSON转字符串
+    var s1 = JSON.stringify(person3);
+    console.log(s1)
+    //字符串转JSON
+    var parse = JSON.parse(s1);
+    console.log(parse)
+</script>
+
+
+<!--DOM查找标签的方法-->
+<!--对于标签而言，查找name、class的结果都是数组查找id的结果是元素，所以查找id执行方法通常比查找name、class要好用-->
+<form>
+    <!--id:标签的唯一标识-->
+    <input type="text" name="signal" id="but001"><br>
+    <!--name：表单的两个属性之一：通常用于单选框、多选框、下拉框-->
+    <input type="checkbox" name="team" value="Brazil">巴西
+    <input type="checkbox" name="team" value="German">德国<br>
+    <!--class:表示一类标签-->
+    <button type="button" class="button">普通按钮</button>
+    <br>
+    <button type="reset" class="button">重置按钮</button>
+</form>
+<script>
+    //根据ID：结果为具体元素
+    const byId = document.getElementById("but001");
+    console.log(byId)
+    //根据name：结果为数组
+    const byName = document.getElementsByName("team");
+    console.log(byName)
+    //根据className：结果为数组
+    const byClassName = document.getElementsByClassName("button");
+    console.log(byClassName)
+    //根据tagName：结果为数组
+    const byTagName = document.getElementsByTagName("form");
+    console.log(byTagName)
+    //查找子标签
+    var children = byTagName[0].children
+    console.log(children)
+    //查找第一个子标签
+    var firstElementChild = byTagName[0].firstElementChild;
+    console.log(firstElementChild)
+    //查找最后一个子标签
+    var lastElementChild = byTagName[0].lastElementChild;
+    console.log(lastElementChild)
+    //查找父标签
+    var parentElement = byTagName[0].parentElement;
+    console.log(parentElement)
+    //查找前一个兄弟标签
+    console.log(byTagName[0].previousElementSibling)
+    //查找后一个兄弟标签
+    console.log(byTagName[0].nextElementSibling)
+
+    //选择器查询：id选择器、类选择器、标签选择器
+    //查看jQuery API
+    //选择器查询一个标签
+    console.log(document.querySelector("#but001"))
+    //选择器查询多个标签
+    console.log(document.querySelectorAll("form>input"))
+</script>
+
+
+<!--操作标签的属性
+    element.属性名-->
+<div class="div" id="div"><h1 id="h1">用于修改的标签属性</h1></div>
+<script>
+    //修改属性值
+    document.querySelector("#but001").name = "input"
+    //读取属性值
+    console.log(document.querySelector("#but001").name)
+    //修改标签体的文本内容
+    document.querySelector("#div").innerText = "innerText修改"
+    //读取标签体的文本内容
+    console.log(document.querySelector("#div").innerText)
+    //修改标签体内所有内容：若不想原来的内容被覆盖可以使用“+=”代替“=”
+    document.querySelector(".div").innerHTML = "<h1 id=\"h1\">innerHTML修改</h1>"
+    //读取标签体内所有内容
+    console.log(document.querySelector(".div"))
+</script>
+
+
+<!--DOM的增删改操作-->
+<ul id="city">
+    <li name="bj">北京</li>
+    <li name="sh">上海</li>
+    <li name="sz">深圳</li>
+</ul>
+<script>
+    //创建一个li标签
+    var li = document.createElement("li");
+    li.name = "cs"
+    li.innerText = "长沙"
+    //将li添加到city标签中
+    document.getElementById("city").appendChild(li)
+
+    var li2 = document.createElement("li");
+    li2.name = "gz"
+    li2.innerText = "广州"
+    //将li2添加到上海之前，再次调用li发生的效果是移动而非新建
+    document.getElementById("city").insertBefore(li, document.getElementsByName("sh")[0])
+    document.getElementById("city").insertBefore(li2, document.getElementsByName("sh")[0])
+
+    //用li2替换上海
+    document.getElementById("city").replaceChild(li2, document.getElementsByName("sh")[0])
+
+    //删除某个标签
+    li2.remove()
+
+    //仅仅清空city标签内容
+    document.getElementById("city").innerHTML = ""
+</script>
+
+
+<!--事件驱动-->
+<!--静态绑定-->
+clickTest1<input type="button" value="按钮1" onclick="f()"><br>
+<!--动态绑定-->
+clickTest2<input type="button" value="按钮2" id="but"><br>
+focusTest<input type="text" id="text" onfocus="f1()"><br>
+changeTest1<select name="interesting" onchange="f2()">
+            <option value="swimming">游泳</option>
+            <option value="running">跑步</option>
+            <option value="shooting">射击</option></select><br>
+changeTest2<select onchange="f3(this)" id="exercise">
+            <option value="swimming">游泳</option>
+            <option value="running">跑步</option></select><br><br><br><br>
+mouseTest<input type="text" id="mouseTest"><br>
+keyTest<input type="text" id="keyTest">
+<script>
+    //点击事件
+    function f() {
+        alert("我被点击了")
+    }
+
+    document.getElementById("but").onclick = function () {
+        alert("我也被点击了")
+    }
+
+    //焦点事件
+    function f1() {
+        console.log("我获取焦点了")
+    }
+
+    document.getElementById("text").onblur = function () {
+        console.log("我失去焦点了")
+    }
+
+    //内容改变事件
+    function f2(){
+        console.log("我的内容改变了")
+    }
+    function f3(obj){
+        console.log(obj.value)
+        console.log(document.getElementById("exercise").value)
+    }
+
+    //鼠标移入移出
+    document.getElementById("mouseTest").onmouseover = function (){
+        console.log("鼠标移入了")
+    }
+    document.getElementById("mouseTest").onmouseout = function (){
+        console.log("鼠标移出了")
+    }
+
+    //键盘按下抬起
+    document.getElementById("keyTest").onkeydown =function () {
+        console.log("键盘按下："+this.value)
+    }
+    document.getElementById("keyTest").onkeyup =function () {
+        console.log("键盘抬起："+this.value)
+    }
 </script>
 </body>
 </html>

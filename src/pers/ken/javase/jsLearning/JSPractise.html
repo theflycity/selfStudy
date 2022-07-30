@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSPractise</title>
+    <style>
+        table, td, th {
+            border: 1px solid black;
+            width: 500px;
+            text-align: center;
+            margin: auto;
+        }
+        div{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table name="tb">
+    <tr>
+        <th>序号</th>
+        <th>用户名</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td>001</td>
+        <td>张三</td>
+        <td>
+            <button onclick="deletePerson(this)">删除</button>
+        </td>
+    </tr>
+    <tr>
+        <td>002</td>
+        <td>李四</td>
+        <td>
+            <button onclick="deletePerson(this)">删除</button>
+        </td>
+    </tr>
+</table>
+<div>
+    <form>
+        序号<input type="text" name="num"><br>
+        用户<input type="text" name="user"><br>
+        <button type="button" name="button" onclick="addPerson()">添加用户</button>
+    </form>
+</div>
+
+<script>
+    function deletePerson(obj) {
+        obj.parentElement.parentElement.remove()
+    }
+    function addPerson(){
+        var num = document.getElementsByName("num")[0].value;
+        var user = document.getElementsByName("user")[0].value;
+        var tre = document.createElement("tr");
+        tre.innerHTML = " <td>"+num+"</td>\n" +
+            "        <td>"+user+"</td>\n" +
+            "        <td>\n" +
+            "            <button onclick=\"deletePerson(this)\">删除</button>\n" +
+            "        </td>"
+        document.getElementsByName("tb")[0].appendChild(tre)
+        num.value=""
+        user.value=""
+    }
+</script>
+</body>
+</html>
