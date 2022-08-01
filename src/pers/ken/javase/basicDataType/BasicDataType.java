@@ -1,4 +1,4 @@
-package pers.ken.javase.BasicDataType;
+package pers.ken.javase.basicDataType;
 
 /**
  * 测试基本数据类型

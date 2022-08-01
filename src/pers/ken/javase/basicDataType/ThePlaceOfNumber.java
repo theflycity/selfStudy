@@ -1,4 +1,4 @@
-package pers.ken.javase.BasicDataType;
+package pers.ken.javase.basicDataType;
 
 public class ThePlaceOfNumber {
     public static void main(String[] args){

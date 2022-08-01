@@ -1,4 +1,4 @@
-package pers.ken.javase.BasicDataType;
+package pers.ken.javase.basicDataType;
 
 class Circle { //计算圆的面积 calculate方法输入半径的方法
     private int radius;

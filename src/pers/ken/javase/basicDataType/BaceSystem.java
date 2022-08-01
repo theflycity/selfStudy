@@ -1,4 +1,4 @@
-package pers.ken.javase.BasicDataType;
+package pers.ken.javase.basicDataType;
 public class BaceSystem {
     public static void main(String[] args)
     {

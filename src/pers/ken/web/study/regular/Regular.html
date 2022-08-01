@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Regular</title>
+</head>
+<body>
+  <script>
+      //使用"/"更方便
+      var reg1 = new RegExp("l");
+      //更简单
+      var reg2 = /o/
+      //g查找全文
+      var reg3 = new RegExp("l","g");
+      var reg4 = /o/g
+      //i忽略大小写
+      var reg5 = new RegExp("l","gi");
+      var reg6 = /o/gi
+      //是否以l结尾
+      var reg7 = /o$/
+      //是否以h开头
+      var reg8 = /^h/
+      //是否包含5个字符
+      var reg9 = /[a-zA-Z]{5}/
+      //是否有且只有9个字符
+      var reg10 = /^[a-zA-Z]{5}$/
+      //多行查找
+      var reg11 = /o$/m
+      var str1 = "hello，wOrLd";
+      var str2 = "hello\nworld"
+      //使用正则表达式
+      console.log("检查字符串中是否包含l::"+reg1.test(str1))
+      console.log("返回字符串中第一个符合条件的字符：："+str1.match(reg1))
+      console.log("返回第一个字符串被替换的新字符串：："+str1.replace(reg2,"@")+" 原字符串：："+str1)
+      console.log("返回字符串中所有符合条件的字符组成的数组：："+str1.match(reg3))
+      console.log("返回所有字符被替换的新字符串：："+str1.replace(reg4,"@")+" 原字符串：："+str1)
+      console.log("返回字符串中所有符合条件的字符组成的数组：："+str1.match(reg5))
+      console.log("返回所有字符被替换的新字符串：："+str1.replace(reg6,"@")+" 原字符串：："+str1)
+      console.log("检查字符串是否以o结尾::"+reg7.test(str1))
+      console.log("检查字符串是否以h开头::"+reg8.test(str1))
+      console.log("检查字符串是否包含5个连续的字符::"+reg9.test(str1))
+      console.log("检查字符串是否有且只有5个连续的字符::"+reg10.test(str1))
+      console.log("检查字符串是否以o结尾::"+reg7.test(str2))
+      console.log("检查字符串是否以o结尾::"+reg11.test(str2))
+      /*
+      * 元字符
+      * .:匹配除换行字符以外的任意字符。
+      * \w:匹配字母或数字或下划线等价于[a-zA-Z0-9_]
+      * \W:匹配任何非单词字符。等价于[^A-Za-z0-9_]
+      * \s:匹配任意的空白符，包括空格、制表符、换页符等等。等价于[\f\n\r\t\v]
+      * \S:匹配任何非空白字符。等价于[^\f\n\r\t\v]
+      * \d:匹配数字。等价于[0-9]
+      * \D:匹配一个非数字字符。等价于[^0-9]
+      * \b:匹配单词的开始或结束
+      * ^:匹配字符串的开始，但在[]中使用表示取反
+      * $:匹配字符串的结束
+      * */
+      /*
+      *字符集合
+      *[abc] 含义：目标字符串包含abc中的任何一个字符 目标字符串：plain 是否匹配：是 原因：plain中的“a”在列表“abc”中
+      *[^abc] 含义：目标字符串包含abc以外的任何一个字符 目标字符串：plain 是否匹配：是 原因：plain中包含“p”、“l”、“i”、“n”
+      *[a-z] 含义：所有小写英文字符组成的字符列表
+      *[A-Z] 含义：所有大写英文字符组成的字符列表
+      * */
+      /*
+      * 出现次数
+      * *：出现零次或多次
+      * +：出现一次或多次
+      * ?：出现零次或一次
+      * |：或者
+      * {n}：出现n次
+      * {n,}：出现n次或多次
+      * {n,m}：出现n到m次
+      * */
+      /*
+      * 常用正则表达
+      * 用户名：/^\[a-zA-Z\_][a-zA-Z_\-0-9]{5,9}$/
+      * 密码：/^[a-zA-Z0-9_\-\@\#\&\*]{6,12}$/
+      * 前后空格：/^\s+\|\s+$/g
+      * 电子邮件：/^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+[\.]{1})+[a-zA-Z]+$/
+      * */
+  </script>
+
+
+<!--练习-->
+<script>
+    var str3 = "one two three four"
+    var reg12 = /\s/g
+    console.log(str3.replace(reg12,"@"))
+
+    var str4 = "今年是2014年"
+    var reg13 = /\d+/
+    console.log(str4.replace(reg13,'XXXX'))
+
+    var str5 = 'i love java'
+    var str6 = 'java love me'
+    var reg14 = /^java/
+    var reg15 = /java$/
+    console.log(reg14.test(str5))
+    console.log(reg14.test(str6))
+    console.log(reg15.test(str5))
+    console.log(reg15.test(str6))
+</script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-model.trim="http://www.w3.org/1999/xhtml"
+      xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue</title>
+    <!--声明vue-->
+    <script src="../js/vue.js"></script>
+    <!--vue的报错-->
+    <script>Vue.config.productionTip = false</script>
+    <style>
+        #outer {
+            width: 500px;
+            height: 500px;
+            background-color: lightblue;
+        }
+
+        #inner {
+            width: 200px;
+            height: 200px;
+            background-color: lightgreen;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<!--绑定元素内容-->
+<div id="app">
+    <!--这两种方式都可以-->
+    <div v-text="message"></div>
+    <div>{{message}}</div>
+</div>
+<!--Vue写在绑定内容的下方-->
+<script>
+    //这是一个框架，作用：简化web开发
+    //代码块使用json
+    //“var vue = ”也可以省略
+    var vue = new Vue({
+        //el表示哪块区域可以使用vue
+        "el": "#app",
+        //定义容器所用到的数据
+        "data": {
+            //用插值表达式{{}}将message数据模型绑定给div标签体
+            "message": "hello vue"
+        }
+    })
+</script>
+
+<!--绑定元素属性-->
+<!--v-bind-->
+<div id="app2">
+    <!--v-bind可以去掉-->
+    <input type="text" name="username" v-bind:value="vueValue">
+</div>
+<script>
+    var vue1 = new Vue({
+        "el": "#app2",
+        "data": {
+            "vueValue": "username"
+        }
+    });
+</script>
+
+<!--双向绑定-->
+<!--v-model
+    只能用于表单项-->
+<div id="app3">
+    <!--trim:去掉前后空格，：value可以省略-->
+    <input type="text" v-model.trim:value="username">
+</div>
+<script>
+    var vue2 = new Vue({
+        "el": "#app3",
+        "data": {
+            "username": "tom"
+        }
+    })
+</script>
+
+<!--条件渲染-->
+<!--v-if-->
+<!--v-else-->
+<!--v-show-->
+<div id="app4">
+    <!--如果值为false的话，直接干掉标签-->
+    <button type="button" v-if="flag">按钮一</button>
+    <!--如果值为true的话，直接干掉标签
+        不可以单独使用-->
+    <button type="button" v-else="flag">按钮二</button>
+    <!--它不是干掉标签，利用css里面的display属性设置为none -->
+    <button type="button" v-show="flag">按钮三</button>
+</div>
+<script>
+    var vue3 = new Vue({
+        "el": "#app4",
+        "data": {
+            "flag": false
+        }
+    });
+</script>
+
+<!--列表渲染-->
+<!--v-for-->
+<div id="app5">
+    <ul>
+        <!--v-for：（遍历出来的内容，下标）in 要遍历的数据模型-->
+        <!--下标"index"可以和（，）一起省略-->
+        <!--注意“）”和“in”之间要有空格-->
+        <li v-for="(fruit,index) in fruitList">{{fruit}}</li>
+    </ul>
+</div>
+<script>
+    var vue4 = new Vue({
+        "el": "#app5",
+        "data": {
+            //这里填一个数组
+            "fruitList": [
+                "apple",
+                "banana"
+            ]
+        }
+    });
+</script>
+<!--列表渲染练习-->
+<div id="app6">
+    <table>
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>专业</th>
+        </tr>
+        <tr v-for="(employee,index) in employeeList">
+            <td>{{index+1}}</td>
+            <td>{{employee.name}}</td>
+            <td>{{employee.specialty}}</td>
+        </tr>
+    </table>
+</div>
+<script>
+    var vue5 = new Vue({
+        "el": "#app6",
+        "data": {
+            "employeeList": [
+                {"name": "tom", "specialty": "finance"},
+                {"name": "alex", "specialty": "philosophy"}
+            ]
+        }
+    })
+</script>
+
+<!--事件驱动绑定点击事件-->
+<!--v-on:事件名-->
+<div id="app7">
+    <p>{{message}}</p>
+    <!--可以用‘@’代替‘v-on:’-->
+    <button v-on:click="reverseMessage">反转字符串</button>
+</div>
+<script>
+    new Vue({
+        "el": "#app7",
+        "data": {
+            "message": "Hello World"
+        },
+        //定义容器所用到的函数
+        "methods": {
+            //可以将function和‘ “”： ’一起省略
+            "reverseMessage": function () {
+                //因为字符串没有反转的功能，所以需要将字符串切换成字符数组然后反转
+                this.message = this.message.split("").reverse().join("")
+            }
+        }
+    })
+</script>
+<!--绑定鼠标移动事件-->
+<div id="app8">
+    记录鼠标移动事件的框
+    <!--当recordPosition($event)里面只有一个event时，($event)可以省略-->
+    <div style="width: 500px;height: 500px;border: 1px solid black" @mouseMove="recordPosition($event)"></div>
+</div>
+<script>
+    new Vue({
+        "el": "#app8",
+        "data": {
+            "information": "暂时没有获取到鼠标信息"
+        },
+        "methods": {
+            //当前触发事件
+            recordPosition(event) {
+                console.log(event.clientX + ' ' + event.clientY)
+            }
+        }
+    })
+</script>
+
+<!--阻止标签的默认行为-用于异步请求中
+    两种方法阻止-->
+<div id="app9">
+    <!--@click.prevent里面的prevent就是阻止默认行为-->
+    <a href="https://www.baidu.com" target="_blank" @click.prevent="f1">跳转到百度</a>
+</div>
+<script>
+    new Vue({
+        "el": "#app9",
+        "methods": {
+            f1() {
+                console.log("标签被点击了")
+                //ECMAScript6之前也可以用这个方法
+                //event.preventDefault()
+            }
+        }
+    })
+</script>
+
+<!--阻止事件冒泡（传播）-->
+<div id="app10">
+    <div id="outer" @click="f2">
+        <!--@click.stop里面的stop阻止事件冒泡-->
+        <div id="inner" @click.stop="f3"></div>
+    </div>
+</div>
+<script>
+    new Vue({
+        "el": "#app10",
+        "methods": {
+            f2() {
+                console.log("外层的div被点击了")
+            },
+            f3() {
+                console.log("内层的div被点击了")
+            }
+        }
+    })
+</script>
+
+<!--侦听属性-->
+<div id="app11">
+    <p>尊姓：{{firstName}}</p>
+    <p>大名：{{lastName}}</p>
+    尊姓：<input type="text" v-model="firstName"/><br/>
+    大名：<input type="text" v-model="lastName"/><br/>
+    <p>全名：{{fullName}}</p>
+</div>
+<script>
+    new Vue({
+        "el": "#app11",
+        "data": {
+            "firstName": "jim",
+            "lastName": "green",
+            "fullName": "jim green"
+        },
+        //监听
+        "watch": {
+            firstName(inputValue) {
+                this.fullName = inputValue + " " + this.lastName
+            },
+            lastName(inputValue) {
+                this.fullName = this.firstName + " " + inputValue
+            }
+        }
+    })
+</script>
+
+<!--vue练习-->
+<div id="app12">
+    <table border="1" cellpadding="0" width="500px">
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>专业</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="(user,index) in userList">
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.age}}</td>
+            <td>{{user.subject}}</td>
+            <td>
+                <button @click="deleteUser(index)">删除</button>
+            </td>
+        </tr>
+    </table>
+    <form action="http://www.baidu.com" method="post">
+        <!--作用：利用文本框为user对象添加属性-->
+        编号<input type="text"  v-model="user.id" name="id"><br>
+        姓名<input type="text"  v-model="user.name" name="name"><br>
+        年龄<input type="text"  v-model="user.age" name="age"><br>
+        专业<input type="text"  v-model="user.subject" name="subject"><br>
+        <input type="submit" value="添加数据" @click.prevent="addUser">
+    </form>
+</div>
+<script>
+    new Vue({
+        "el": "#app12",
+        "data": {
+            //新建了一个user对象
+            "user": {},
+            "userList": [{
+                "id": 11,
+                "name": "tom",
+                "age": 20,
+                "subject": "java"
+            }, {
+                "id": 22,
+                "name": "ken",
+                "age": 22,
+                "subject": "python"
+            }]
+        },
+        "methods": {
+            addUser() {
+                //作用：为userList添加元素
+                this.userList.push(this.user)
+                this.user = {}
+            },
+            deleteUser(i){
+                //作用：为userList删除元素，从下标为i的地方开始，一共num个
+                this.userList.splice(i,1)
+            }
+        }
+    })
+</script>
+<!--生命周期和钩子函数-->
+<div id="app13">
+    <div>{{message}}</div>
+</div>
+<script>
+    new Vue({
+        "el": "#app",
+        "data": {
+            "message": "hello vue"
+        },
+        "methods":{
+
+        },
+        //数据模型初始化之前,data和methods还没有初始化
+        beforeCreate(){
+
+        },
+        //数据模型初始化之后
+        created(){
+
+        },
+        //数据加载前，数据还没有从vue中传入对应的容器
+        beforeMount(){},
+        //数据加载后
+        mounted(){}
+    })
+</script>
+</body>
+</html>

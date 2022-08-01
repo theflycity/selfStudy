@@ -127,6 +127,11 @@
     action:接受表单数据的服务器地址
     method:请求方式：一共有八种：get,post,put,delete,head,connect,option,trace，但是此属性只有两种:get,post
         表单属性:name、value
+        只有设置了 name 属性的表单元素才能在提交表单时传递它们的值。
+        input：对于不同的输入类型，value 属性的用法也不同：
+            type="button", "reset", "submit" - 定义按钮上的显示的文本
+            type="text", "password", "hidden" - 定义输入字段的初始值
+            type="checkbox", "radio", "image" - 定义与输入相关联的值
     表单项
         单行文本框<input type="text" name="signal">
         密码框<input type="password" name="secret">
